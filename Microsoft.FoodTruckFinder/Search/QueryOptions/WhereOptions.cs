@@ -1,6 +1,6 @@
-﻿namespace Microsoft.FoodTruckFinder.Search.QueryOptions
+﻿namespace Microsoft.FoodTruckFinder.CLI.Search.QueryOptions
 {
-    internal class WhereOptions
+    public class WhereOptions
     {
         public int? Limit { get; set; }
         public string? Status { get; set; }

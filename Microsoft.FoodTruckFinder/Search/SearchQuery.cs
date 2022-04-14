@@ -1,8 +1,8 @@
-﻿using Microsoft.FoodTruckFinder.Search.QueryOptions;
+﻿using Microsoft.FoodTruckFinder.CLI.Search.QueryOptions;
 
-namespace Microsoft.FoodTruckFinder.Search
+namespace Microsoft.FoodTruckFinder.CLI.Search
 {
-    internal class SearchQuery
+    public class SearchQuery
     {
         public SearchQuery(string rootPath, Boundary boundary)
         {

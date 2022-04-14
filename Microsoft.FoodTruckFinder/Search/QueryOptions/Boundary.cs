@@ -1,8 +1,9 @@
-﻿namespace Microsoft.FoodTruckFinder.Search.QueryOptions
+﻿namespace Microsoft.FoodTruckFinder.CLI.Search.QueryOptions
 {
-    internal class Boundary
+    public class Boundary
     {
-        public Boundary(string boundaryField, decimal latitude, decimal longitude, int radiusInMeters)
+        //TODO: add boundary validation (lat/long within appropriate range
+        public Boundary(string boundaryField, double latitude, double longitude, int radiusInMeters)
         {
             _boundaryField = boundaryField;
             _latitude = latitude;
@@ -12,10 +13,10 @@
 
         private string _boundaryField;
         public string BoundaryField => _boundaryField;
-        private decimal _latitude { get; set; }
-        public decimal Latitude => _latitude;
-        private decimal _longitude { get; set; }
-        public decimal Longitude => _longitude;
+        private double _latitude { get; set; }
+        public double Latitude => _latitude;
+        private double _longitude { get; set; }
+        public double Longitude => _longitude;
         private int _radiusInMeters { get; set; }
         public int RadiusInMeters => _radiusInMeters;
     }

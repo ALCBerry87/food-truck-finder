@@ -1,9 +1,9 @@
 ﻿using CommandLine;
-using Microsoft.FoodTruckFinder.Search;
+using Microsoft.FoodTruckFinder.CLI.Search;
 
-namespace Microsoft.FoodTruckFinder
+namespace Microsoft.FoodTruckFinder.CLI
 {
-    internal class FinderService
+    public class FinderService
     {
         private readonly SearchService _searchService;
 
@@ -23,13 +23,20 @@ namespace Microsoft.FoodTruckFinder
 
         internal Task<int> HandleErrors(IEnumerable<Error> errors)
         {
-            Console.WriteLine("Errors occurred during processing:");
-            foreach(var error in errors)
+            var errorsStoppingProcessing = errors.Where(e => e.StopsProcessing);
+
+            //Only show errors if they actually prevent processing of the request
+            if (errorsStoppingProcessing.Any())
             {
-                Console.WriteLine(error.ToString());
+                foreach (var error in errorsStoppingProcessing)
+                {
+                    Console.WriteLine(error.ToString());
+                }
+
+                return Task.FromResult(1);
             }
 
-            return Task.FromResult(1);
+            return Task.FromResult(0);
         }
     }
 }

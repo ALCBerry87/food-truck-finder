@@ -1,4 +1,4 @@
-﻿namespace Microsoft.FoodTruckFinder.Search
+﻿namespace Microsoft.FoodTruckFinder.CLI.Search
 {
     internal class SearchResult
     {

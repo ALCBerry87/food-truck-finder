@@ -1,10 +1,11 @@
-﻿using Microsoft.FoodTruckFinder.Common;
-using Microsoft.FoodTruckFinder.Search.QueryOptions;
+﻿
+using Microsoft.FoodTruckFinder.CLI.Common;
+using Microsoft.FoodTruckFinder.CLI.Search.QueryOptions;
 using Newtonsoft.Json;
 
-namespace Microsoft.FoodTruckFinder.Search
+namespace Microsoft.FoodTruckFinder.CLI.Search
 {
-    internal class SearchService
+    public class SearchService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         public SearchService(IHttpClientFactory httpClientFactory)
@@ -20,13 +21,17 @@ namespace Microsoft.FoodTruckFinder.Search
             query.AddWhere(new WhereOptions()
             {
                 Limit = options.MaxItems,
-                Status = "APPROVED" //TODO: don't hard-code this, add as another parameter
+                Status = options.Status
             });
 
             //Set up http client and get JSON results
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(query.Build());
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"HTTP request returned {response.StatusCode}");
+                return 1;
+            }
 
             //parse json and write results
             var json = await response.Content.ReadAsStringAsync();
@@ -43,7 +48,7 @@ namespace Microsoft.FoodTruckFinder.Search
             Console.WriteLine($"Here are the closest {results.Count} options:");
             foreach(var result in results)
             {
-                Console.WriteLine($"Name: {result.Applicant}\nDistance: {result.Distance}\nAddress{result.Address}\n");
+                Console.WriteLine($"\nName: {result.Applicant}\nDistance: {result.Distance}\nAddress: {result.Address}\nFood: {result.FoodItems}\n");
             }
 
             return 0;
