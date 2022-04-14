@@ -11,7 +11,10 @@ namespace Microsoft.FoodTruckFinder.Search
         [Option("long", Required = true, HelpText = "Specifies the latitude used for finding nearby food trucks")]
         public decimal Longitude { get; set; }
 
-        [Option("limit", Default = 5, Max = 20, HelpText = "Specifies the number of search results which will be returned. The default is 5.")]
-        public int Limit { get; set; }
+        [Option("radius", Required = false, Default = 20000, HelpText = "Radius of search area in meters. The default is 20,000 (20 KM)")]
+        public int RadiusInMeters { get; set; }
+
+        [Option("max-items", Required = false, Default = 5, HelpText = "Specifies the number of search results which will be returned. The default is 5.")]
+        public int MaxItems { get; set; }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FoodTruckFinder;
-using Microsoft.FoodTruckFinder.Common;
-using Microsoft.FoodTruckFinder.Register;
 using Microsoft.FoodTruckFinder.Search;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
-        services.AddScoped<RegisterService>();
         services.AddScoped<SearchService>();
-        services.AddScoped<FinderService>(); //TODO: consider adding interface
+        services.AddScoped<FinderService>(); //TODO: consider adding interfaces
         services.AddHttpClient();
         services.AddLogging();
     })
@@ -29,8 +26,8 @@ using (var serviceScope = host.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine("Error Occured");
-        return (int)Enumerations.ExitCode.Error;
+        return 1;
     }
 }
 
-return (int)Enumerations.ExitCode.Success;
+return 0;

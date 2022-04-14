@@ -2,18 +2,14 @@
 {
     internal class SearchResult
     {
+        //Not including all props for the sake of time
         public double LocationId { get; set; }
-        public string? Applicant { get; set; }
+        public string Applicant { get; set; }
         public string? FacilityType { get; set; } //TODO: convert to enum
-        public double Cnn { get; set; }
-        public string? LocationDescription { get; set; }
         public string? Address { get; set; }
-        public string Blocklot { get; set; }
-        public string Block { get; set; }
-        public string Lot { get; set; }
-        public string Permit { get; set; }
-        public string Status { get; set; }
-        public string FoodItems { get; set; }
-        //public string 
+        public string? FoodItems { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Distance { get; set; }
     }
 }

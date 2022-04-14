@@ -1,4 +1,5 @@
 ﻿using Microsoft.FoodTruckFinder.Common;
+using Microsoft.FoodTruckFinder.Search.QueryOptions;
 using Newtonsoft.Json;
 
 namespace Microsoft.FoodTruckFinder.Search
@@ -11,35 +12,41 @@ namespace Microsoft.FoodTruckFinder.Search
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task Search(SearchOptions options)
+        public async Task<int> Search(SearchOptions options)
         {
-            //Get API key/secret
-            var apiCredentials = LoadApiCredentials();
-            if (apiCredentials == null) throw new ArgumentNullException(nameof(apiCredentials));
+            //Build api path with query
+            var boundary = new Boundary("location", options.Latitude, options.Longitude, options.RadiusInMeters);
+            var query = new SearchQuery(Constants.API_PATH, boundary);
+            query.AddWhere(new WhereOptions()
+            {
+                Limit = options.MaxItems,
+                Status = "APPROVED" //TODO: don't hard-code this, add as another parameter
+            });
 
             //Set up http client and get JSON results
-            //TODO: incorporate filtering, sorting, etc.
             var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"{apiCredentials.Id}:{apiCredentials.Secret}");
-            var response = await client.GetAsync(Constants.API_PATH);
+            var response = await client.GetAsync(query.Build());
             response.EnsureSuccessStatusCode();
 
             //parse json and write results
             var json = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrWhiteSpace(json)) throw new Exception("No data found");
+            if (string.IsNullOrWhiteSpace(json)) throw new Exception("API response is empty");
 
             var results = JsonConvert.DeserializeObject<List<SearchResult>>(json);
-            for (var i = 0; i < results.Count; i++)
+            //check for no results
+            if (results == null || !results.Any())
             {
-                var result = results[i];
-                Console.WriteLine($"Record: {result.Address}");
+                Console.WriteLine("No nearby results found. Try expanding your radius.");
+                return 0;
             }
-        }
 
-        private ApiCredentials? LoadApiCredentials()
-        {
-            var credentialsJson = File.ReadAllText(Constants.DEFAULT_CREDENTIALS_PATH);
-            return JsonConvert.DeserializeObject<ApiCredentials>(credentialsJson);
+            Console.WriteLine($"Here are the closest {results.Count} options:");
+            foreach(var result in results)
+            {
+                Console.WriteLine($"Name: {result.Applicant}\nDistance: {result.Distance}\nAddress{result.Address}\n");
+            }
+
+            return 0;
         }
     }
 }
