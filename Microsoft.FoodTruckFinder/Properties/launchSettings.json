@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
+    },
+    "Search Profile": {
+      "commandName": "Project",
+      "commandLineArgs": "search --lat 37.79314862 --long -122.4025671"
+    }
+  }
+}
