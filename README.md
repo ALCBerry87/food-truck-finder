@@ -99,7 +99,9 @@ Creating the Installer project was much simpler than I expected, even for just s
 
 * Set up automated build & unit testing with GitHub Actions
 * Implement more robust error handling
+* Add functionality to take in an address and call a geocoding API to get the corresponding lat/long
 * Refactor pieces of the logic in `SearchService.Search` to be more testable. With the current implementation, I'm not able to test that different option settings work as expected. At a minimum, I'd want to split that current method into two components: one that returns the search results given the options, and anything that shows the results in the console. Would likely have something like the following:
     * `IEnumerable<SearchResult> GetSearchResults(SearchOptions options)`
-    * `SearchResultExporter.ExportToConsole(results)`
+    * `SearchResultExporter.ExportToConsole(results)
+* Update installer(s) to add the executable to the PATH and alias as `ftf` (so you can open the command line and run `ftf --lat {x} --long {y}`
 * Create installer packages for macOS and Linux
