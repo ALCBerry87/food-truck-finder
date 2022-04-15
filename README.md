@@ -91,21 +91,15 @@ query.AddWhere(new WhereOptions()
     Status = options.Status
 });
 ```
-Why isn't the boundary (lat/long) just part of the `WhereOptions`? The answer is because the boundary is _required_ - lat/long explicitly on the CLI, and radius will have a default even if not specified. 
+Why isn't the boundary (lat/long) just part of the `WhereOptions`? To facilitate potential use of `SearchQuery` in the future, I wanted to require the boundary for construction. For the non-required options, I wanted to use the builder pattern, which works well for improving readability of the logic for query builder classes (vs. passing 1,000 parameters to a constructor).
+
+Creating the Installer project was much simpler than I expected, even for just setting up a basic MSI. I did look briefly into using the [WiX toolset](https://wixtoolset.org/), but after seeing it would require significant XML configuration, decided to keep it simple for the sake of time.
 
 ### Next Steps (i.e., What I Didn't Have Time For)
 
+* Set up automated build & unit testing with GitHub Actions
+* Implement more robust error handling
 * Refactor pieces of the logic in `SearchService.Search` to be more testable. With the current implementation, I'm not able to test that different option settings work as expected. At a minimum, I'd want to split that current method into two components: one that returns the search results given the options, and anything that shows the results in the console. Would likely have something like the following:
     * `IEnumerable<SearchResult> GetSearchResults(SearchOptions options)`
     * `SearchResultExporter.ExportToConsole(results)`
-*
-
-#### Immediate ####
-
-#### Long-Term ####
-
-
-
---soda has .NET library, but it's dependent on .NET Framework 4.5
-
---design decision: domain driven development, organizing code into logical areas (register / search) instead of by "type"
+* Create installer packages for macOS and Linux
