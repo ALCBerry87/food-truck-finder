@@ -2,7 +2,7 @@
 "Food Truck Finder" (FTF) is a .NET-based CLI application that can be used to find nearby food trucks in the San Francisco area, based on data available from https://data.sfgov.org/Economy-and-Community/Mobile-Food-Facility-Permit/rqzj-sfat/data.
 
 ### Installation
-Download and run the MSI to install on Windows: https://github.com/ALCBerry87/food-truck-finder/blob/main/Microsoft.FoodTruckFinder.Installer/Release/Microsoft.FoodTruckFinder.Installer.msi
+Download and run the MSI to [install on Windows](https://github.com/ALCBerry87/food-truck-finder/blob/main/Microsoft.FoodTruckFinder.Installer/Release/Microsoft.FoodTruckFinder.Installer.msi)
 
 Distributions are currently not available on macOS or Linux.
 
